@@ -74,15 +74,36 @@ void BinaryHeap<T>::FindLessValues(const T& value, int index)
 }
 
 template <class T>
-int BinaryHeap<T>::FindValue(const T& value)
+T BinaryHeap<T>::FindValue(const T& value)
 {
-	for(int i = 1; i < vector_.size(); i++)
+	return FindValue(value, 1);
+}
+
+template <class T>
+T BinaryHeap<T>::FindValue(const T& value, int index)
+{
+	int temp = vector_[index];
+
+	vector<T> temp_array(size_ - 1);
+
+	if(temp == value)
+		return temp;
+	else if(index < size_ && )
 	{
-		if(vector_[i] == value)
+		if(temp > value)
 		{
-			return vector_[i];
+			temp_array.push_back(index);
+
+			//also blacklist all left/right children
+
 		}
+			
+
+		if(index * 2)
+		return FindValue(value, index * 2);
 	}
+		
+	return default;
 }
 
 #endif

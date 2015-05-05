@@ -11,6 +11,11 @@ Node::~Node(void)
 {
 }
 
+void Node::AddEdge(float distance, Node& dest) const
+{
+    edges_.push_back(new Edge(distance, dest));
+}
+
 bool Node::operator==(const Node& other) const
 {
 	if(this->name_ == other.name_)

@@ -4,8 +4,8 @@
 struct Edge
 {
 	float value_;
-	Node* destination_;
-	Edge(float, Node*);
+	Node& destination_;
+	Edge(float, Node&);
 	~Edge(void);
 };
 

@@ -10,6 +10,7 @@ int main()
 {
 	fstream myfile;
 	string line;
+
 	Graph graph;
 	
 	myfile.open ("C:/Users/Andrew/Desktop/graph.txt");
@@ -20,26 +21,14 @@ int main()
 		
 		string parsed_line;
 
-		//Get Node
-		getline(ss, parsed_line, ' ');
+		vector<string> temp_line(3);
 
-		if(!graph.Contains(parsed_line))
-			graph.Insert(parsed_line);
+		while(getline(ss, parsed_line, ' '))
+                    temp_line.push_back(parsed_line);
 
-		if(node == NULL)
-			node = graph.Find(parsed_line);
-
-		//Get Edge
-		getline(ss, parsed_line, ' ');
-
-		Edge* edge = new Edge(atoi(parsed_line.c_str()), node);
-
-		node->edges_.push_back();
-
-		
+		//Add Edge
+		graph.AddEdge(parsed_line[0], parsed_line[2], parsed_line[1]);
 	}
-
-
 
 	myfile.close();
 

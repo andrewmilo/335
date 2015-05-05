@@ -13,7 +13,7 @@ int main()
 	binary_heap.insert(9);
 
 	binary_heap.FindLessValues(10);
-
+	
 	cin.get();
 	return 0;
 }
