@@ -6,11 +6,12 @@ using namespace std;
 int main()
 {
 	BinaryHeap<int> binary_heap(5);
-	binary_heap.insert(5);
-	binary_heap.insert(6);
-	binary_heap.insert(7);
-	binary_heap.insert(8);
-	binary_heap.insert(9);
+	binary_heap.Insert(9);
+	binary_heap.Insert(8);
+	binary_heap.Insert(7);
+	binary_heap.Insert(3);
+	binary_heap.Insert(4);
+	binary_heap.Insert(5);
 
 	binary_heap.FindLessValues(10);
 	

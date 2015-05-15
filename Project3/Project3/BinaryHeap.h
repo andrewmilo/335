@@ -8,12 +8,13 @@ class BinaryHeap
 private:
 	std::vector<T> vector_;
 	int size_;
-	void FindLessValues(const T&, int index);
+	void FindLessValues(const T&, int index) const;
+	void PercolateDown(int);
 public:
-	void insert(const T& x);
-	void remove(T&);
+	void Enqueue(const T& x);
+	void Dequeue();
 	BinaryHeap(int);
-	void FindLessValues(const T&);
+	void FindLessValues(const T&) const;
 	~BinaryHeap(void);
 };
 
@@ -29,7 +30,7 @@ BinaryHeap<T>::~BinaryHeap(void)
 }
 
 template <class T>
-void BinaryHeap<T>::insert(const T& x)
+void BinaryHeap<T>::Enqueue(const T& x)
 {
 	if( size_ == vector_.size( ) - 1 )
 		vector_.resize( vector_.size( ) * 2 );
@@ -44,19 +45,40 @@ void BinaryHeap<T>::insert(const T& x)
 }
 
 template <class T>
-void BinaryHeap<T>::remove(T& node)
+void BinaryHeap<T>::Dequeue()
 {
+	 vector_[1] = vector_[ currentSize-- ];
+     percolateDown(1);
 }
 
 template <class T>
-void BinaryHeap<T>::FindLessValues(const T& value)
+void BinaryHeap<T>::PercolateDown( int hole )
+{
+    int child;
+    T tmp = array[ hole ];
+
+    for( ; hole * 2 <= currentSize; hole = child )
+    {
+        child = hole * 2;
+        if( child != currentSize && array[ child + 1 ] < array[ child ] )
+            ++child;
+        if( array[ child ] < tmp )
+            array[ hole ] = array[ child ];
+        else
+            break;
+    }
+    array[ hole ] = tmp;
+}
+
+template <class T>
+void BinaryHeap<T>::FindLessValues(const T& value) const
 {
 	//Start at index 1
 	FindLessValues(value, 1);
 }
 
 template <class T>
-void BinaryHeap<T>::FindLessValues(const T& value, int index)
+void BinaryHeap<T>::FindLessValues(const T& value, int index) const
 {
 	if(index < vector_.size())
 	{
@@ -82,28 +104,7 @@ T BinaryHeap<T>::FindValue(const T& value)
 template <class T>
 T BinaryHeap<T>::FindValue(const T& value, int index)
 {
-	int temp = vector_[index];
-
-	vector<T> temp_array(size_ - 1);
-
-	if(temp == value)
-		return temp;
-	else if(index < size_ && )
-	{
-		if(temp > value)
-		{
-			temp_array.push_back(index);
-
-			//also blacklist all left/right children
-
-		}
-			
-
-		if(index * 2)
-		return FindValue(value, index * 2);
-	}
-		
-	return default;
+	
 }
 
 #endif
