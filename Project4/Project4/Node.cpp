@@ -9,24 +9,21 @@ Node::Node(std::string name)
 
 Node::~Node(void)
 {
+
+std::string& Node::GetName(void) const
+{
+	return name_;
 }
 
-void Node::AddEdge(float distance, const Node& dest)
+void Node::AddEdge(float distance, Node& dest) const
 {
-    edges_.push_back(new Edge(distance, dest));
+	Edge* edge = new Edge(distance, dest);
+    edges_.push_back(edge);
 }
 
 bool Node::operator==(const Node& other) const
 {
 	if(this->name_ == other.name_)
-		return true;
-
-	return false;
-}
-
-bool Node::operator<(const Node& other) const
-{
-	if(this->value_ == other.value_)
 		return true;
 
 	return false;

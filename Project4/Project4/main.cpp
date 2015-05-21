@@ -24,10 +24,10 @@ int main()
 		vector<string> temp_line(3);
 
 		while(getline(ss, parsed_line, ' '))
-            temp_line.push_back(parsed_line);
+                    temp_line.push_back(parsed_line);
 
 		//Add Edge
-		graph.AddEdge(parsed_line[0], parsed_line[2], parsed_line[1]);
+		graph.AddEdge(temp_line[0], temp_line[2], parsed_line[1]);
 	}
 
 	myfile.close();

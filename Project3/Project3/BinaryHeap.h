@@ -1,3 +1,10 @@
+//
+//
+// BY ANDREW MILOSLAVSKY
+// CSCI 335
+//
+//
+
 #ifndef _BINARYHEAP_H
 #define _BINARYHEAP_H
 #include <vector>
@@ -8,18 +15,18 @@ class BinaryHeap
 private:
 	std::vector<T> vector_;
 	int size_;
-	void FindLessValues(const T&, int index) const;
-	void PercolateDown(int);
+	void FindValue(const T&, int index);
+	void FindLessValues(const T&, int index);
 public:
-	void Enqueue(const T& x);
-	void Dequeue();
+	void insert(const T& x);
 	BinaryHeap(int);
-	void FindLessValues(const T&) const;
+	void FindLessValues(const T&);
+	bool FindValue(const T&);
 	~BinaryHeap(void);
 };
 
 template <class T>
-BinaryHeap<T>::BinaryHeap(int capacity = 100) : vector_(capacity)
+BinaryHeap<T>::BinaryHeap(int capacity = 100) : vector_(capacity, -1)
 {
 	size_ = 0;
 }
@@ -30,7 +37,7 @@ BinaryHeap<T>::~BinaryHeap(void)
 }
 
 template <class T>
-void BinaryHeap<T>::Enqueue(const T& x)
+void BinaryHeap<T>::insert(const T& x)
 {
 	if( size_ == vector_.size( ) - 1 )
 		vector_.resize( vector_.size( ) * 2 );
@@ -45,46 +52,22 @@ void BinaryHeap<T>::Enqueue(const T& x)
 }
 
 template <class T>
-void BinaryHeap<T>::Dequeue()
-{
-	 vector_[1] = vector_[ currentSize-- ];
-     percolateDown(1);
-}
-
-template <class T>
-void BinaryHeap<T>::PercolateDown( int hole )
-{
-    int child;
-    T tmp = array[ hole ];
-
-    for( ; hole * 2 <= currentSize; hole = child )
-    {
-        child = hole * 2;
-        if( child != currentSize && array[ child + 1 ] < array[ child ] )
-            ++child;
-        if( array[ child ] < tmp )
-            array[ hole ] = array[ child ];
-        else
-            break;
-    }
-    array[ hole ] = tmp;
-}
-
-template <class T>
-void BinaryHeap<T>::FindLessValues(const T& value) const
+void BinaryHeap<T>::FindLessValues(const T& value)
 {
 	//Start at index 1
 	FindLessValues(value, 1);
 }
 
 template <class T>
-void BinaryHeap<T>::FindLessValues(const T& value, int index) const
+void BinaryHeap<T>::FindLessValues(const T& value, int index)
 {
 	if(index < vector_.size())
 	{
 		if(vector_[index] < value)
 		{
-			cout << vector_[index];
+			//If not uninitialized
+			if(vector_[index] != -1 && vector_[index] != 0)
+				cout << vector_[index] << " ";
 
 			//Left child
 			FindLessValues(value, index * 2);
@@ -96,15 +79,13 @@ void BinaryHeap<T>::FindLessValues(const T& value, int index) const
 }
 
 template <class T>
-T BinaryHeap<T>::FindValue(const T& value)
+bool BinaryHeap<T>::FindValue(const T& value)
 {
-	return FindValue(value, 1);
-}
-
-template <class T>
-T BinaryHeap<T>::FindValue(const T& value, int index)
-{
-	
+	for(int i = 1; i < vector_.size(); i++)
+	{
+		if(vector_[i] == value)
+			return i;
+	}
 }
 
 #endif

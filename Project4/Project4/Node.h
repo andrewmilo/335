@@ -3,17 +3,17 @@
 #include <vector>
 #include "Edge.h"
 
-template <class T>
 class Node
 {
 private:
 	std::string name_;
-	std::vector<Edge> edges_;
-	T value_;
+	std::vector<Edge*> edges_;
 public:
-	void AddEdge(float distance, const Node&);
+	const std::string& GetName() const;
+	void AddEdge(float distance, Node&) const;
 	bool operator==(const Node&) const;
 	bool operator!=(const Node&) const;
+	Node();
 	Node(std::string);
 	~Node(void);
 };
