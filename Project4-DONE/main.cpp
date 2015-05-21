@@ -17,5 +17,7 @@ int main(int argc, char* argv[])
 	//Load the graph from a text file
 	graph.LoadGraph(argv[1]);
 
+	graph
+
 	cin.get();
 }

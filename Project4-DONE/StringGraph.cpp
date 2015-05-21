@@ -14,6 +14,9 @@ StringGraph::~StringGraph(void)
 {
 }
 
+/***
+/* Loads the graph where each line is in the format of NODE DISTANCE NODE per line
+***/
 void StringGraph::LoadGraph(const std::string& path)
 {
 	std::fstream myfile;

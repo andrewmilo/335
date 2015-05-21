@@ -36,27 +36,7 @@ void Graph::AddEdge(const std::string& vertex1, const std::string& vertex2, floa
 	v1->AddEdge(value, *v2);
 }
 
-void Graph::LoadGraph(const std::string& path)
+void Graph:Djikstra(const Node& source) const
 {
-	std::fstream myfile;
-	std::string line;
 
-	myfile.open (path);
-
-	while(getline (myfile, line))
-	{
-		std::istringstream ss (line);
-		
-		std::string parsed_line;
-
-		std::vector<std::string> temp_line(3);
-
-		while(getline(ss, parsed_line, ' '))
-                    temp_line.push_back(parsed_line);
-
-		//Add Edge
-		this->AddEdge(temp_line[0], temp_line[2], parsed_line[1]);
-	}
-
-	myfile.close();
 }

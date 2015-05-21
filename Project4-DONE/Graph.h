@@ -22,7 +22,7 @@ public:
 	bool Contains(const std::string&) const;
 	void AddVertex(std::string);
 	void AddEdge(const std::string& node1, const std::string& node2, float value);
-	void LoadGraph(const std::string& filepath);
+	void Djikstra(const Node& source) const;
 	Graph(void);
 	~Graph(void);
 private:
@@ -113,26 +113,36 @@ Node& Graph<T>::AddVertex(T data)
 }
 
 template <class T>
-void Graph<T>::AddEdge(const T& vertex1, const T& vertex2, unsigned float value)
+Node& Graph<T>::GetVertex(T data)
 {
-    if(!this->Contains(name))
+	for(int i = 0; i < vertices_.size; i++)
 	{
-		AddVertex(vertex1);
-
+		if(vertices_[i].data_ == data)
+			return vertices_[i];
 	}
-		
-    //Node* v1 = vertices_[vertices_.size() - 1];
-	if(!this->Contains(name))
-		AddVertex(vertex2);
-    //Node* v2 = vertices_[vertices_.size() - 1];
-        
-	//v1->AddEdge(value, *v2);
+
+	return AddVertex(data);
 }
 
 template <class T>
-void Graph<T>::Djisktra(const Node& source) const
+void Graph<T>::AddEdge(const T& vertex1, const T& vertex2, unsigned float value)
 {
+	Node temp = GetVertex(vertex1);
+	Node temp2 = GetVertex(vertex2);
 
+	temp.edges_.push_back(new Edge(value))
+	temp2.
+}
+
+template <class T>
+void Graph<T>::Djikstra(const Node& source) const
+{
+	queue q;
+
+	for(int i = 0; i < source.edges_.size; i++)
+	{
+		q.push_back(source.edges_[i]);
+	}
 }
 
 #endif
