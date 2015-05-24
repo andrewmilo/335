@@ -5,6 +5,9 @@
 ***/
 
 #include "StringGraph.h"
+#include <iostream>
+#include <sstream>
+#include <fstream>
 
 StringGraph::StringGraph(void)
 {
@@ -15,7 +18,8 @@ StringGraph::~StringGraph(void)
 }
 
 /***
-/* Loads the graph where each line is in the format of NODE DISTANCE NODE per line
+* Loads the graph where each line is in the format of NODE DISTANCE NODE per line
+* Example: A 5 B
 ***/
 void StringGraph::LoadGraph(const std::string& path)
 {
@@ -24,19 +28,22 @@ void StringGraph::LoadGraph(const std::string& path)
 
 	myfile.open (path);
 
+	//Iterates through the lines
 	while(getline (myfile, line))
 	{
 		std::istringstream ss (line);
 		
 		std::string parsed_line;
 
-		std::vector<std::string> temp_line(3);
+		std::vector<std::string> temp_line;
 
 		while(getline(ss, parsed_line, ' '))
-                    temp_line.push_back(parsed_line);
+		{
+			temp_line.push_back(parsed_line);
+		}
 
-		//Add Edge
-		this->AddEdge(temp_line[0], temp_line[2], parsed_line[1]);
+		//Add Edge based on split lines
+		this->AddEdge(temp_line[0], temp_line[2], std::atof(temp_line[1].c_str()));
 	}
 
 	myfile.close();

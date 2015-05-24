@@ -1,9 +1,8 @@
-//
-//
-// BY ANDREW MILOSLAVSKY
-// CSCI 335
-//
-//
+/***
+/* Binary Heap Implementation by Andrew Miloslavsky
+/* Originally created for CSCI 335, Assignment #3
+/* May 1st, 2015
+***/
 
 #ifndef _BINARYHEAP_H
 #define _BINARYHEAP_H

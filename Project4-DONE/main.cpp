@@ -9,15 +9,26 @@
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main()
 {
-	//Create a graph of string nodes
+	// Create a graph of string nodes
+	// StringGraph derives from the Graph<string> class,
+	// and includes the extra function "LoadGraph" which allows the loading of text files into a graph
 	StringGraph graph;
 
+	cout << "Enter the path of the graph text file: ";
+	string path;
+	cin >> path;
+
 	//Load the graph from a text file
-	graph.LoadGraph(argv[1]);
+	graph.LoadGraph(path);
 
-	graph
+	cout << "Enter the index of a source node to start from: ";
+	int index;
+	cin >> index;
 
-	cin.get();
+	//Run Dijkstra's algorithm starting at a source index
+	graph.Dijkstra(index);
+
+	cin.get();cin.get();
 }
