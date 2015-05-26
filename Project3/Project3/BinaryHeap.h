@@ -12,22 +12,42 @@ template <class T>
 class BinaryHeap
 {
 private:
-	std::vector<T> vector_;
-	int size_;
-	void FindValue(const T&, int index);
-	void FindLessValues(const T&, int index);
+	struct Node
+	{
+		T data_;
+		bool visited_;
+		bool operator==(const Node&) const;
+		bool operator!=(const Node&) const;
+		bool operator>(const Node&) const;
+		bool operator<(const Node&) const;
+		Node();
+		Node(T);
+		~Node(void);
+	};
+	std::vector<Node*> vector_;
+	int count_;
+	void FindValue(const T&, int index) const;
+	void FindLessValues(const T&, int index) const;
+	void PercolateUp(const T&);
 public:
-	void insert(const T& x);
-	BinaryHeap(int);
-	void FindLessValues(const T&);
-	bool FindValue(const T&);
+	void Insert(const T&);
+	void FindLessValues(const T&) const;
+	void FindValue(const T&) const;
+	BinaryHeap(void);
 	~BinaryHeap(void);
 };
 
+/**
+* Initialize vector with INT_MAX
+**/
 template <class T>
-BinaryHeap<T>::BinaryHeap(int capacity = 100) : vector_(capacity, -1)
+BinaryHeap<T>::BinaryHeap() : vector_(25)
 {
-	size_ = 0;
+	//Fill vector with NULL values for future comparison proof.
+	for(int i = 0; i < 25; i++)
+		vector_.push_back(new Node(NULL));
+
+	count_ = 0;
 }
 
 template <class T>
@@ -36,37 +56,101 @@ BinaryHeap<T>::~BinaryHeap(void)
 }
 
 template <class T>
-void BinaryHeap<T>::insert(const T& x)
+BinaryHeap<T>::Node::Node(T data)
 {
-	if( size_ == vector_.size( ) - 1 )
-		vector_.resize( vector_.size( ) * 2 );
-
-	//Percolate up
-	int hole = ++size_;
-
-	for( ; hole > 1 && x < vector_[ hole / 2 ]; hole /= 2 )
-		vector_[ hole ] = vector_[ hole / 2 ];
-	
-	vector_[ hole ] = x;
+	data_ = data;
+	visited_ = false;
 }
 
 template <class T>
-void BinaryHeap<T>::FindLessValues(const T& value)
+bool BinaryHeap<T>::Node::operator==(const Node& other) const
 {
-	//Start at index 1
+	if(this->data_ == other.data_)
+		return true;
+
+	return false;
+}
+
+template <class T>
+bool BinaryHeap<T>::Node::operator!=(const Node& other) const
+{
+	return !(*this == other);
+}
+
+template <class T>
+bool BinaryHeap<T>::Node::operator>(const Node& other) const
+{
+	if(this->data_ > other.data_)
+		return true;
+
+	return false;
+}
+
+template <class T>
+bool BinaryHeap<T>::Node::operator<(const Node& other) const
+{
+	if(this->data_ < other.data_)
+		return true;
+
+	return false;
+}
+
+template <class T>
+BinaryHeap<T>::Node::~Node()
+{
+}
+
+/**
+* Inserts an item, and percolates the item up if needed.
+**/
+template <class T>
+void BinaryHeap<T>::Insert(const T& x)
+{
+	//Resize the vector if it is full
+	if(count_ == vector_.size() - 1)
+		vector_.resize(vector_.size() * 2);
+	
+	PercolateUp(x);
+}
+
+/**
+* Finds the correct position for an element based on its comparison with existing elements.
+**/
+template <class T>
+void BinaryHeap<T>::PercolateUp(const T& x)
+{
+	int pos = ++count_;
+
+	while(pos > 1 && x < vector_[pos/2]->data_)
+	{
+		vector_[pos] = vector_[pos / 2];
+
+		pos /= 2;
+	}
+	
+	vector_[pos] = new Node(x);
+}
+
+/**
+* Wrapper function in order to start searches from the root (in this case index 1 of the vector)
+**/
+template <class T>
+void BinaryHeap<T>::FindLessValues(const T& value) const
+{
 	FindLessValues(value, 1);
 }
 
+/**
+* Recursive method that finds all values in the binary heap that are less than a value.
+**/
 template <class T>
-void BinaryHeap<T>::FindLessValues(const T& value, int index)
+void BinaryHeap<T>::FindLessValues(const T& value, int index) const
 {
-	if(index < vector_.size())
+	if(index < count_)
 	{
-		if(vector_[index] < value)
+		if(*vector_[index] < value)
 		{
-			//If not uninitialized
-			if(vector_[index] != -1 && vector_[index] != 0)
-				cout << vector_[index] << " ";
+			std::cout << vector_[index]->data_ << " ";
 
 			//Left child
 			FindLessValues(value, index * 2);
@@ -78,12 +162,35 @@ void BinaryHeap<T>::FindLessValues(const T& value, int index)
 }
 
 template <class T>
-bool BinaryHeap<T>::FindValue(const T& value)
+void BinaryHeap<T>::FindValue(const T& value) const
 {
-	for(int i = 1; i < vector_.size(); i++)
+	FindValue(value, 1);
+}
+
+/**
+* A binary heap has around 75% of its nodes on the last 2 levels. Eliminating sub trees is the focus here.
+* The algorithm marks nodes that are greater than the value so that we do not further traverse their own deeper roots.
+**/
+template <class T>
+void BinaryHeap<T>::FindValue(const T& value, int index) const
+{
+	if(index < count_)
 	{
-		if(vector_[i] == value)
-			return i;
+		if(*vector_[index] == value)
+		{
+			std::cout << "Found " << value << " at index " << index;
+			return;
+		}
+
+		//Stop traversing if the node is GREATER than the value (This is the optimization)
+		if(*vector_[index] > value)
+			return;
+
+		//Left child
+		FindValue(value, index * 2);
+	
+		//Right child
+		FindValue(value, index * 2 + 1);
 	}
 }
 
